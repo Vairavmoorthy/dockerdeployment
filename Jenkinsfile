@@ -24,13 +24,13 @@ pipeline {
 
     stage('Pull Image') {
       steps {
-        sh 'sudo docker pull vairav7590/vairav'
+        sh 'docker pull vairav7590/vairav'
       }
     }
 
     stage('Deploy') {
       steps {
-        sh 'sudo docker run -d -p 9090:80 vairav7590/vairav'
+        sh 'docker run -d -p 9090:80 vairav7590/vairav'
       }
     }
   }
