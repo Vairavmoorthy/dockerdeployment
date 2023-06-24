@@ -19,30 +19,30 @@ pipeline {
             credentialsId: 'u112'
           ]
         }
-      }
-    }
-stage('Login to Docker') {
-  steps {
-    withCredentials([usernamePassword(
-        credentialsId: 'Dt20',
-        usernameVariable: 'DOCKER_USERNAME',
-        passwordVariable: 'DOCKER_PASSWORD'
-      )]) {
-      sh "echo $DOCKER_PASSWORD | sudo -S docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY"
-    }
-  }
-}
 
+        stage('Login to Docker') {
+          steps {
+            withCredentials([usernamePassword(
+              credentialsId: 'Dt20',
+              usernameVariable: 'DOCKER_USERNAME',
+              passwordVariable: 'DOCKER_PASSWORD'
+            )]) {
+              sh 'sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+            }
+          }
+        }
 
-    stage('Pull Image') {
-      steps {
-        sh 'sudo docker pull vairav7590/vairav'
-      }
-    }
+        stage('Pull Image') {
+          steps {
+            sh 'sudo docker pull vairav7590/vairav'
+          }
+        }
 
-    stage('Deploy') {
-      steps {
-        sh 'sudo docker run -d -p 9090:80 vairav7590/vairav'
+        stage('Deploy') {
+          steps {
+            sh 'sudo docker run -d -p 9090:80 vairav7590/vairav'
+          }
+        }
       }
     }
   }
