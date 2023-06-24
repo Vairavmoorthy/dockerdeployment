@@ -19,7 +19,8 @@ pipeline {
             identityFile: [
               credentialsId: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b',
               variable: 'SSH_KEY'
-            ]
+            ],
+            allowAnyHosts: true
           ]
 
           // Start the SSH agent and add the private key
@@ -50,13 +51,3 @@ pipeline {
     stage('Pull Image') {
       steps {
         sh 'sudo docker pull vairav7590/vairav'
-      }
-    }
-
-    stage('Deploy') {
-      steps {
-        sh 'sudo docker run -d -p 9090:80 vairav7590/vairav'
-      }
-    }
-  }
-}
