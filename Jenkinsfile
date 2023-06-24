@@ -29,7 +29,7 @@ pipeline {
           usernameVariable: 'DOCKER_USERNAME',
           passwordVariable: 'DOCKER_PASSWORD'
         )]) {
-          sh 'sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+          sh "echo $DOCKER_PASSWORD | sudo -S docker login -u $DOCKER_USERNAME --password-stdin"
         }
       }
     }
