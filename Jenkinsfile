@@ -7,6 +7,15 @@ pipeline {
         git 'https://github.com/Vairavmoorthy/dockerdeployment.git'
       }
     }
+stage('Deploy to Remote Machine') {
+      steps {
+        script {
+          // Define your remote machine details
+          def remoteMachine = [
+            host: '3.7.71.17'
+            user: 'ubuntu'
+            keyFileVariable: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b'
+          ]
 
     stage('Login to Docker') {
       steps {
