@@ -22,20 +22,6 @@ pipeline {
       }
     }
 
-    stage('Login to Docker') {
-      steps {
-        withCredentials([usernamePassword(
-          credentialsId: 'Dt20',
-          usernameVariable: 'DOCKER_USERNAME',
-          passwordVariable: 'DOCKER_PASSWORD'
-        )]) {
-          sh '''
-            echo ${DOCKER_PASSWORD} | sudo -S docker login -u ${DOCKER_USERNAME} --password-stdin
-          '''
-        }
-      }
-    }
-
     stage('Pull Image') {
       steps {
         sh 'sudo docker pull vairav7590/vairav'
