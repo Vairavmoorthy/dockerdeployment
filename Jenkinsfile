@@ -16,21 +16,31 @@ pipeline {
             name: 'RemoteMachine',
             host: '3.7.71.17',
             user: 'ubuntu',
-            identityFile: [
-              credentialsId: 'u112',
-              variable: 'SSH_KEY'
-            ],
-            allowAnyHosts: true
+            credentialsId: 'u112'
           ]
+        }
 
-          // Start the SSH agent and add the private key
-          sshagent(['u112']) {
-            // Establish SSH connection to the remote machine
-            sshCommand remote: remoteMachine, command: '''
-              sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
-              sudo docker pull vairav7590/vairav
-              sudo docker run -d -p 9090:80 vairav7590/vairav
-            '''
+        stage('Login to Docker') {
+          steps {
+            withCredentials([usernamePassword(
+              credentialsId: 'Dt20',
+              usernameVariable: 'DOCKER_USERNAME',
+              passwordVariable: 'DOCKER_PASSWORD'
+            )]) {
+              sh 'sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY'
+            }
+          }
+        }
+
+        stage('Pull Image') {
+          steps {
+            sh 'sudo docker pull vairav7590/vairav'
+          }
+        }
+
+        stage('Deploy') {
+          steps {
+            sh 'sudo docker run -d -p 9090:80 vairav7590/vairav'
           }
         }
       }
