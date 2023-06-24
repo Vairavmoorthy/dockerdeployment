@@ -17,7 +17,7 @@ pipeline {
             host: '3.7.71.17',
             user: 'ubuntu',
             identityFile: [
-              credentialsId: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b',
+              credentialsId: 'u112',
               variable: 'SSH_KEY'
             ],
             allowAnyHosts: true
