@@ -17,8 +17,8 @@ pipeline {
             host: '3.7.71.17',
             user: 'ubuntu',
             keyFileVariable: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b',
-            allowAnyHosts: false, // Set to false to require knownHosts
-            knownHosts: '''your-known-hosts-file-content'''
+            allowAnyHosts: true, // Set to false to require knownHosts
+            //knownHosts: '''your-known-hosts-file-content'''
           ]
 
           // Establish SSH connection to the remote machine using SSH key
