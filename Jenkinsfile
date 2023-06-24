@@ -7,7 +7,10 @@ pipeline {
         git 'https://github.com/Vairavmoorthy/dockerdeployment.git'
       }
     }
+pipeline {
+  agent any
 
+  stages {
     stage('Deploy to Remote Machine') {
       steps {
         script {
