@@ -13,10 +13,12 @@ pipeline {
         script {
           // Define your remote machine details
           def remoteMachine = [
-            name: 'docker', // Add a name for the remote machine
+            name: 'RemoteMachine', // Add a name for the remote machine
             host: '3.7.71.17',
             user: 'ubuntu',
-            keyFileVariable: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b'
+            keyFileVariable: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b',
+            allowAnyHosts: false, // Set to false to require knownHosts
+            knownHosts: '''your-known-hosts-file-content'''
           ]
 
           // Establish SSH connection to the remote machine using SSH key
