@@ -2,6 +2,12 @@ pipeline {
   agent any
 
   stages {
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/Vairavmoorthy/vmterraform.git'
+      }
+    }
+
     stage('Login to Docker') {
       steps {
         withCredentials([usernamePassword(
@@ -27,3 +33,4 @@ pipeline {
     }
   }
 }
+
