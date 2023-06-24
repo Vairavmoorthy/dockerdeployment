@@ -10,49 +10,30 @@ pipeline {
 
     stage('Deploy to Remote Machine') {
       steps {
-        script {
-          // Define your remote machine details
-          def remoteMachine = [
-            name: 'RemoteMachine', // Add a name for the remote machine
-            host: '3.7.71.17',
-            user: 'ubuntu',
-            keyFileVariable: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b',
-            allowAnyHosts: true, // Set to false to require knownHosts
-            //knownHosts: '''your-known-hosts-file-content'''
-          ]
+        withCredentials([sshUserPrivateKey(credentialsId: '38880b8b-9bf4-4dc5-bf28-4d7d74665a4b', keyFileVariable: 'SSH_KEY')]) {
+          script {
+            // Define your remote machine details
+            def remoteMachine = [
+              name: 'RemoteMachine', // Add a name for the remote machine
+              host: '3.7.71.17',
+              user: 'ubuntu',
+              key: SSH_KEY
+            ]
 
-          // Establish SSH connection to the remote machine using SSH key
-          sshCommand remote: remoteMachine, command: '''
-            sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
-            sudo docker pull vairav7590/vairav
-            sudo docker run -d -p 9090:80 vairav7590/vairav
-          '''
+            // Start the SSH agent and add the private key
+            sshagent(['your-ssh-credential-id']) {
+              // Establish SSH connection to the remote machine
+              sshCommand remote: remoteMachine, command: '''
+                sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
+                sudo docker pull vairav7590/vairav
+                sudo docker run -d -p 9090:80 vairav7590/vairav
+              '''
+            }
+          }
         }
       }
     }
 
-    stage('Login to Docker') {
-      steps {
-        withCredentials([usernamePassword(
-            credentialsId: 'Dt20',
-            usernameVariable: 'DOCKER_USERNAME',
-            passwordVariable: 'DOCKER_PASSWORD'
-          )]) {
-          sh 'sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY'
-        }
-      }
-    }
-
-    stage('Pull Image') {
-      steps {
-        sh 'sudo docker pull vairav7590/vairav'
-      }
-    }
-
-    stage('Deploy') {
-      steps {
-        sh 'sudo docker run -d -p 9090:80 vairav7590/vairav'
-      }
-    }
+    // Rest of the pipeline stages...
   }
 }
