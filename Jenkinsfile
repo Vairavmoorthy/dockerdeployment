@@ -24,7 +24,7 @@ pipeline {
           ]
 
           // Start the SSH agent and add the private key
-          sshagent(['38880b8b-9bf4-4dc5-bf28-4d7d74665a4b']) {
+          sshagent(['u112']) {
             // Establish SSH connection to the remote machine
             sshCommand remote: remoteMachine, command: '''
               sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
