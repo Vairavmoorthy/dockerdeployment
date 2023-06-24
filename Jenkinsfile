@@ -17,6 +17,7 @@ pipeline {
               name: 'RemoteMachine', // Add a name for the remote machine
               host: '3.7.71.17',
               user: 'ubuntu',
+              allowAnyHosts:true,
               key: SSH_KEY
             ]
 
