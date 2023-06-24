@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/Vairavmoorthy/vmterraform.git'
+        git 'https://github.com/Vairavmoorthy/dockerdeployment.git'
       }
     }
 
